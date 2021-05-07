@@ -19,18 +19,35 @@ impl<'a> Window<'a> {
 
     fn print_panes(&self) {
         for pane in self.panes.iter() {
-            println!("{:?}", pane.pid);
+            pane.print_pane();
         }
     }
 }
 
 struct Pane {
     pid: u32,
+    // Sizes are in "text cells"
+    width: u32,
+    height: u32,
+}
+
+impl Pane {
+    fn new(pid: u32, width: u32, height: u32) -> Pane {
+        Pane {
+            pid,
+            width,
+            height,
+        }
+    }
+
+    fn print_pane(&self) {
+        println!("{:?} {:?} {:?}", self.pid, self.width, self.height);
+    }
 }
 
 fn main() {
     let mut window = Window::new(55, "Banana".to_string());
-    let pane = Pane { pid: 102 };
+    let pane = Pane::new(102, 100, 100);
 
     window.push_pane(&pane);
     window.print_panes();
